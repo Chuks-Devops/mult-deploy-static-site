@@ -1,0 +1,109 @@
+---
+- name: Install NGINX and deploy zipped site
+  hosts: all
+  become: true
+  gather_facts: yes
+
+  vars_files:
+    - vars/main.yml
+
+  tasks:
+    - name: Set platform-specific values
+      set_fact:
+        site_zip_url: >-
+          {{ prod_redhat_site_zip_url
+             if ansible_os_family == 'RedHat'
+             else prod_dabian_site_zip_url }}
+        site_zip_dest: >-
+          {{ prod_redhat_site_zip_dest
+             if ansible_os_family == 'RedHat'
+             else prod_dabian_site_zip_dest }}
+        site_extract_path: >-
+          {{ prod_redhat_site_extract_path
+             if ansible_os_family == 'RedHat'
+             else prod_dabian_site_extract_path }}
+        site_destination: >-
+          {{ prod_redhat_site_destination
+             if ansible_os_family == 'RedHat'
+             else prod_dabian_site_destination }}
+        web_user: >-
+          {{ 'nginx' if ansible_os_family == 'RedHat' else 'www-data' }}
+
+    - name: Debug OS and paths
+      debug:
+        msg:
+          - "OS Family: {{ ansible_os_family }}"
+          - "ZIP URL: {{ site_zip_url }}"
+          - "ZIP Destination: {{ site_zip_dest }}"
+          - "Extract Path: {{ site_extract_path }}"
+          - "Nginx Destination: {{ site_destination }}"
+          - "Web User: {{ web_user }}"
+
+    - name: Install packages on RedHat
+      yum:
+        name:
+          - nginx
+          - unzip
+        state: present
+      when: ansible_os_family == 'RedHat'
+
+    - name: Install packages on Debian/Ubuntu
+      apt:
+        name:
+          - nginx
+          - unzip
+        state: present
+        update_cache: yes
+      when: ansible_os_family == 'Debian'
+
+    - name: Download zipped site
+      get_url:
+        url: "{{ site_zip_url }}"
+        dest: "{{ site_zip_dest }}"
+        mode: '0644'
+
+    - name: Unzip downloaded site
+      unarchive:
+        src: "{{ site_zip_dest }}"
+        dest: "/tmp/"
+        remote_src: yes
+
+    - name: Clear existing NGINX html directory
+      file:
+        path: "{{ site_destination }}"
+        state: absent
+
+    - name: Recreate NGINX html directory
+      file:
+        path: "{{ site_destination }}"
+        state: directory
+        owner: "{{ web_user }}"
+        group: "{{ web_user }}"
+        mode: '0755'
+
+    - name: Copy extracted website contents to NGINX html directory
+      copy:
+        src: "{{ site_extract_path }}/"
+        dest: "{{ site_destination }}/"
+        owner: "{{ web_user }}"
+        group: "{{ web_user }}"
+        mode: '0644'
+        remote_src: yes
+
+    - name: Ensure directories are executable
+      shell: |
+        find {{ site_destination }} -type d -exec chmod 755 {} \;
+
+    - name: Ensure NGINX is enabled and running
+      systemd:
+        name: nginx
+        enabled: yes
+        state: restarted
+        
+    - name: Clean up previous files if any
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - "{{ site_zip_dest }}"
+        - "{{ site_extract_path }}"

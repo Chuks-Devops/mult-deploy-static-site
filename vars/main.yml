@@ -1,0 +1,8 @@
+prod_redhat_site_zip_url: https://www.tooplate.com/zip-templates/2089-meteor.zip
+prod_debian_site_zip_url: https://www.tooplate.com/zip-templates/2092-shelf.zip
+prod_redhat_site_zip_dest: /tmp/2089-meteor.zip
+prod_debian_site_zip_dest: /tmp/2092-shelf.zip
+prod_redhat_site_extract_path: /tmp/2089-meteor
+prod_debian_site_extract_path: /tmp/2092-shelf
+prod_redhat_site_destination: /usr/share/nginx/html
+prod_debian_site_destination: /var/www/html
