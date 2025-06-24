@@ -1,5 +1,6 @@
 ## Ansible Static Site Deployment
-![Uploading Screenshot 2025-06-24 112939.png…]()
+![Screenshot 2025-06-24 112939](https://github.com/user-attachments/assets/7c323d25-c91a-444d-a1f1-fd7ba1aa9fdb)
+
 
 
 This project automates the deployment of static sites using NGINX on both Ubuntu and Amazon Linux systems. It configures the server, installs NGINX, downloads site files from url then move the file to nginx html folder, and ensures idempotent and repeatable deployment.
