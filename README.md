@@ -1,5 +1,6 @@
 ## Ansible Static Site Deployment
-![Screenshot 2025-06-24 112939](https://github.com/user-attachments/assets/7c323d25-c91a-444d-a1f1-fd7ba1aa9fdb)
+![Screenshot 2025-06-24 112939](https://github.com/user-attachments/assets/36822e41-a883-4b51-9892-8c875c984323)
+
 
 
 
