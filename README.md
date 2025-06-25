@@ -80,11 +80,26 @@ cd mult-deploy-static-site
 ```
 
 ##  Inventory Setup
+
+Change the Ip addresses to the Ip address of the hosts
 ```
 webapp01 ansible_host=<ip-address> ansible_user=ec2-user ansible_ssh_private_key_file=ansible.pem
 webapp02 ansible_host=<ip-address> ansible_user=ec2-user ansible_ssh_private_key_file=ansible.pem
 ```
 
+## Variables
+You can change the site_zip_url to the link to your website. Change the site_zip_dest to the folder it will download the zipped file. Then site_extract_path to where it will extract the content of the zipped file to
+
+```
+prod_redhat_site_zip_url: https://www.tooplate.com/zip-templates/2089-meteor.zip
+prod_debian_site_zip_url: https://www.tooplate.com/zip-templates/2092-shelf.zip
+prod_redhat_site_zip_dest: /tmp/2089-meteor.zip
+prod_debian_site_zip_dest: /tmp/2092-shelf.zip
+prod_redhat_site_extract_path: /tmp/2089-meteor
+prod_debian_site_extract_path: /tmp/2092-shelf
+prod_redhat_site_destination: /usr/share/nginx/html
+prod_debian_site_destination: /var/www/html
+```
 
 ## Execute ansible playbook
 ```
