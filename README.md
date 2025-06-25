@@ -20,6 +20,54 @@ This project automates the deployment of static sites using NGINX on both Ubuntu
 
 - Inventory of target hosts
 
+## Install ansible on ubuntu
+```
+sudo apt update && sudo apt upgrade -y
+sudo apt install software-properties-common
+
+sudo add-apt-repository --yes --update ppa:ansible/ansible
+
+#Install Ansible
+sudo apt install ansible -y
+
+#Validate Ansible:
+ansible ---version
+
+```
+
+## Install python3 and pip on CentOS:
+```
+Sudo yum install epel-release
+Sudo yum install python3-pip
+```
+
+#Install python3 and pip on RHEL:
+```
+sudo dnf install --assumeyes python3-pip
+
+#Install python3 and pip on MacOS:
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew install python
+
+#Install python3 and pip on Ubuntu:
+sudo apt update
+sudo apt install python3-pip
+
+#Install python3 and pip on Windows: 
+
+Run the Python installer for Windows and select "Add Python 3.x to PATH", this will ensure pip is callable from cmd.
+
+#Validate you have python and pip installed:
+Python3 ---version
+pip ---version
+
+#Install Ansible using pip:
+pip install ansible
+ 
+#Validate Ansible
+Ansible ---version
+```
+
 ## Setup
 
 ```
